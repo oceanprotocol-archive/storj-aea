@@ -1,0 +1,31 @@
+agent_name: ocean_publisher
+author: eightballer
+version: 0.1.0
+license: Apache-2.0
+description: ''
+aea_version: '>=1.1.0, <2.0.0'
+fingerprint: {}
+fingerprint_ignore_patterns: []
+connections:
+- eightballer/storj_file_transfer:0.1.0
+contracts: []
+protocols:
+- fetchai/default:1.0.0
+- fetchai/signing:1.0.0
+- fetchai/state_update:1.0.0
+skills:
+- eightballer/storj_file_uploader:0.1.0
+default_ledger: ethereum
+required_ledgers:
+- fetchai
+- ethereum
+default_routing: {}
+connection_private_key_paths: {}
+private_key_paths:
+  ethereum: ethereum_private_key.txt
+logging_config:
+  disable_existing_loggers: false
+  version: 1
+dependencies:
+  aea-ledger-fetchai: {}
+default_connection: null
