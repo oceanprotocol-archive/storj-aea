@@ -93,3 +93,7 @@ setup_repo:
 tests:
 	pipenv run python -m unittest discover tests/
 
+.PHONY: run_app
+run_app:
+	pipenv run app
+
