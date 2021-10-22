@@ -3,6 +3,7 @@
 to setup the project
 
 ```
+git@gitlab.com:datarella/MOBIX-GROUP/storj-aea.git
 make new_env
 make install_env
 ```
