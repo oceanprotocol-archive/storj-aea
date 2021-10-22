@@ -1,8 +1,19 @@
-# Repo Name
+# AEA Storj File Uploader
 
-The purpose of this repo is provide a standardised approach to Datarella python projects.
+to setup the project
 
-The repo contains a number of key CI components which are to be used as the basis of python projects moving forwards.
+```
+git clone git@gitlab.com:datarella/MOBIX-GROUP/storj-aea.git
+make new_env
+make install_env
+```
+
+to run the project
+
+```
+make run_app
+```
+
 
 # Components
 
