@@ -17,8 +17,13 @@
 #
 # ------------------------------------------------------------------------------
 
-"""This module contains the implementation of the default skill."""
+"""This package contains a scaffold of a model."""
 
-from aea.configurations.base import PublicId
+from aea.skills.base import Model
 
-PUBLIC_ID = PublicId.from_str("eightballer/ocean_d2c_library:0.1.0")
+
+class Strategy(Model):
+    """This class scaffolds a model."""
+
+    uploaded_files = []
+    file_urls = {}

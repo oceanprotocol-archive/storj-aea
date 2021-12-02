@@ -15,7 +15,7 @@
 
 variables: 
   OWNER: rebeccajohnson
-  IMAGE: mobix_reward_agent
+  IMAGE: storj_aea
   TAG: latest
 
 default:

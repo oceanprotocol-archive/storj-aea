@@ -1,0 +1,5 @@
+cls  # unused variable (/home/tom/Desktop/contracts/datarella/mobix_collection/mobix_repo/production_repos/OceanAgents/storj_agent/src/storj_agent/protocols/file_storage/custom_types.py:44)
+other  # unused variable (/home/tom/Desktop/contracts/datarella/mobix_collection/mobix_repo/production_repos/OceanAgents/storj_agent/src/storj_agent/protocols/file_storage/custom_types.py:55)
+receiver_address  # unused variable (/home/tom/Desktop/contracts/datarella/mobix_collection/mobix_repo/production_repos/OceanAgents/storj_agent/src/storj_agent/skills/storj_file_uploader/dialogues.py:49)
+cls  # unused variable (/home/tom/Desktop/contracts/datarella/mobix_collection/mobix_repo/production_repos/OceanAgents/storj_agent/src/storj_agent/vendor/fetchai/protocols/default/custom_types.py:49)
+cls  # unused variable (/home/tom/Desktop/contracts/datarella/mobix_collection/mobix_repo/production_repos/OceanAgents/storj_agent/src/storj_agent/vendor/fetchai/protocols/signing/custom_types.py:53)

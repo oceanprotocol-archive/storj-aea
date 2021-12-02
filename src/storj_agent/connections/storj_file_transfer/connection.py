@@ -19,8 +19,9 @@
 """Scaffold connection and channel."""
 from typing import Any, Optional
 
+import boto3
 from aea.configurations.base import PublicId
-from aea.connections.base import BaseSyncConnection, Connection
+from aea.connections.base import BaseSyncConnection
 from aea.mail.base import Envelope
 
 """
@@ -30,6 +31,9 @@ Sync (inherited from BaseSyncConnection) or Async (inherited from Connection) co
 """
 
 CONNECTION_ID = PublicId.from_str("eightballer/storj_file_transfer:0.1.0")
+
+from packages.eightballer.protocols.file_storage.message import \
+    FileStorageMessage
 
 
 class StorjSyncConnection(BaseSyncConnection):
@@ -59,6 +63,7 @@ class StorjSyncConnection(BaseSyncConnection):
         """
 
         self.storj_creds = kwargs.get("configuration").config["storj_creds"]
+        self.target_skill = kwargs.get("configuration").config["target_skill_id"]
         super().__init__(*args, **kwargs)
 
     def main(self) -> None:
@@ -93,7 +98,41 @@ class StorjSyncConnection(BaseSyncConnection):
 
         :param envelope: the envelope to send.
         """
-        self.logger.info(f"Message got! {envelope.message.content}")
+        if envelope.message.performative == FileStorageMessage.Performative.FILE_UPLOAD:
+            self.logger.info(f"Envelope got! {envelope}")
+            self._upload(envelope)
+        else:
+            self.logger.error(
+                f"Unsupported performative! {envelope.message.performative}"
+            )
+            raise NotImplementedError
+
+    def _upload(self, envelope: Envelope) -> None:
+        self.logger.info(f"Message got! {envelope.message.content[:100]}")
+        extension = envelope.message.filename.rsplit(".", 1)[1]
+
+        self.s3.put_object(
+            Body=envelope.message.content.decode("utf-8"),
+            Bucket=self.bucket_name,
+            Key=envelope.message.key + "." + extension,
+        )
+        url = self.s3.generate_presigned_url(
+            ClientMethod="get_object",
+            Params={
+                "Bucket": self.bucket_name,
+                "Key": envelope.message.key + "." + extension,
+            },
+            ExpiresIn=604800,
+        )
+        msg = FileStorageMessage(
+            performative=FileStorageMessage.Performative.FILE_DOWNLOAD,
+            content=envelope.message.content,
+            access_url=url,
+        )
+        msg.sender = envelope.to
+        msg.to = envelope.sender
+        file_download_envolope = Envelope(to=msg.to, sender=msg.sender, message=msg)
+        self.put_envelope(file_download_envolope)
 
     def on_connect(self) -> None:
         """
@@ -101,7 +140,19 @@ class StorjSyncConnection(BaseSyncConnection):
 
         Connection status set automatically.
         """
-        pass
+        self.s3 = boto3.client(
+            "s3",
+            aws_access_key_id=self.storj_creds["aws_access_key_id"],
+            aws_secret_access_key=self.storj_creds["aws_secret_access_key"],
+            endpoint_url=self.storj_creds["endpoint_url"],
+        )
+
+        self.bucket_name = "bucketto"
+        try:
+            self.logger.info(f"creating bucket {self.bucket_name}...")
+            self.s3.create_bucket(Bucket="bucketto")
+        except self.s3.exceptions.BucketAlreadyExists:
+            self.logger.info("bucket already exists")
 
     def on_disconnect(self) -> None:
         """
