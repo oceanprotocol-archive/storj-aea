@@ -19,23 +19,30 @@
 
 """This package contains a scaffold of a behaviour."""
 import glob
-import os
+from hashlib import md5
 from typing import cast
 
 from aea.mail.base import Envelope
 from aea.skills.behaviours import TickerBehaviour
+from packages.eightballer.protocols.file_storage.message import \
+    FileStorageMessage
 from packages.eightballer.skills.storj_file_uploader import \
     PUBLIC_ID as SENDER_ID
-from packages.eightballer.skills.storj_file_uploader.dialogues import \
-    DefaultDialogues
-from packages.fetchai.protocols.default.message import DefaultMessage
+from packages.eightballer.skills.storj_file_uploader.strategy import Strategy
 
 
 class StorjFileUploadBehaviour(TickerBehaviour):
     """This class scaffolds a behaviour."""
 
+    @property
+    def uploaded_ids(self) -> list:
+        """store uploaded file hashs"""
+        strategy = cast(Strategy, self.context.strategy)
+        return strategy.uploaded_files
+
     def __init__(self, *args, **kwargs):
         self._upload_dir = kwargs.pop("upload_dir")
+        self._uploaded_ids = kwargs.pop("uploaded_ids")
         super().__init__(*args, **kwargs)
 
     def setup(self) -> None:
@@ -45,19 +52,26 @@ class StorjFileUploadBehaviour(TickerBehaviour):
 
     def act(self) -> None:
         """Implement the act."""
-        self.log(f"acting in storj behaviour")
-
-        available_files = glob.glob("./upload_dir/*")
+        strategy = cast(Strategy, self.context.strategy)
+        available_files = glob.glob(self._upload_dir)
         for file in available_files:
             file_bytes = open(file, "rb").read()
-            self.log(f"File found in directory. {file_bytes}")
-            self.__create_envelope(file_bytes, file)
+            id = md5(file_bytes).hexdigest()
+            if id not in strategy.uploaded_files:
+                self.log(f"Not already uploaded file.. Uploading.")
+                self.__create_envelope(file_bytes, file, id)
+                strategy.uploaded_files.append(id)
+            else:
+                continue
 
-    def __create_envelope(self, bytes, filename) -> None:
+    def __create_envelope(self, bytes, filename, fileid) -> None:
         receiver_id = "eightballer/storj_file_transfer:0.1.0"
         self.log(f"Sender ID {SENDER_ID}")
-        msg = DefaultMessage(
-            performative=DefaultMessage.Performative.BYTES, content=bytes
+        msg = FileStorageMessage(
+            performative=FileStorageMessage.Performative.FILE_UPLOAD,
+            content=bytes,
+            key=fileid,
+            filename=filename,
         )
         msg.sender = str(SENDER_ID)
         msg.to = receiver_id

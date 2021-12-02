@@ -19,18 +19,20 @@
 
 """This package contains a scaffold of a handler."""
 
-from typing import Optional
+from typing import Optional, cast
 
 from aea.configurations.base import PublicId
 from aea.protocols.base import Message
 from aea.skills.base import Handler
-from packages.fetchai.protocols.default.message import DefaultMessage
+from packages.eightballer.protocols.file_storage.message import \
+    FileStorageMessage
+from packages.eightballer.skills.storj_file_uploader.strategy import Strategy
 
 
-class MyScaffoldHandler(Handler):
+class FileStorageHandler(Handler):
     """This class scaffolds a handler."""
 
-    SUPPORTED_PROTOCOL = DefaultMessage.protocol_id  # type: Optional[PublicId]
+    SUPPORTED_PROTOCOL = FileStorageMessage.protocol_id  # type: Optional[PublicId]
 
     def setup(self) -> None:
         """Implement the setup."""
@@ -43,7 +45,11 @@ class MyScaffoldHandler(Handler):
 
         :param message: the message
         """
-        self.log(f"Handling new message {message}")
+        strategy = cast(Strategy, self.context.strategy)
+
+        if message.access_url not in strategy.file_urls.keys():
+            strategy.file_urls[message.access_url] = message
+            self.log(f"receieved new url and saved in strategy {message.access_url}")
 
     def teardown(self) -> None:
         """Implement the handler teardown."""

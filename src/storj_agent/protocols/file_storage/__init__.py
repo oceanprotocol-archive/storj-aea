@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------------------------
 #
-#   Copyright 2018-2019 Fetch.AI Limited
+#   Copyright 2021 eightballer
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -17,10 +17,15 @@
 #
 # ------------------------------------------------------------------------------
 
-"""This package contains a scaffold of a model."""
+"""
+This module contains the support resources for the file_storage protocol.
 
-from aea.skills.base import Model
+It was created with protocol buffer compiler version `libprotoc 3.6.1` and aea version `1.1.0`.
+"""
 
+from packages.eightballer.protocols.file_storage.message import \
+    FileStorageMessage
+from packages.eightballer.protocols.file_storage.serialization import \
+    FileStorageSerializer
 
-class MyModel(Model):
-    """This class scaffolds a model."""
+FileStorageMessage.serializer = FileStorageSerializer

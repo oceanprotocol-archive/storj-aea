@@ -1,6 +1,20 @@
 # AEA Storj File Uploader
 
-to setup the project
+## Prerequisites
+
+To setup the project, make sure you have the latest verson of pipenv first:
+```
+pip install -U pipenv
+```
+
+We advise running on Linux based machine or WSL.
+
+Make sure you have ``make`` as well:
+```
+sudo apt-get install build-essential
+```
+
+## Install and run
 
 ```
 git clone git@gitlab.com:datarella/MOBIX-GROUP/storj-aea.git
@@ -8,7 +22,15 @@ make new_env
 make install_env
 ```
 
-to run the project
+to run the project you will need a ``.env`` file with the following contents:
+```
+STORJ_ENDPOINT=""
+STORJ_ACCESS_KEY=""
+STORJ_ACCESS_KEY_ID=""
+TARGET_SKILL="eightballer/storg_file_transfer:0.1.0"
+```
+
+run the agent:
 
 ```
 make run_app
@@ -47,11 +69,11 @@ make run_app
 2. setup a new environment
    - make new_env
    - make 
-3. run application
+3. in project directory:
 ```bash
- RUN_CMD="echo hello" pipenv run app
+ mkdocs serve
 ```
-
+Visit http://127.0.0.1:8000/  
 
 # Install environment
 1. install pip
@@ -67,7 +89,6 @@ make new_env
 ```
 make install_env
 ```
-
 
 
 

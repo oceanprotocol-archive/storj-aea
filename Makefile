@@ -11,6 +11,7 @@ clean-build:
 	find . -name '*.egg' -exec rm -fr {} +
 	rm -fr Pipfile.lock
 
+
 .PHONY: clean-docs
 clean-docs:
 	rm -fr site/
@@ -40,10 +41,9 @@ clean-test:
 
 .PHONY: lint
 lint:
-	pipenv run black src/
-	pipenv run isort src/
-	pipenv run flake8 src/
-	pipenv run vulture src/
+	pipenv run black src/storj_agent/skills/storj_file_uploader
+	pipenv run isort src/storj_agent/skills/storj_file_uploader
+	pipenv run vulture src/storj_agent/skills/storj_file_uploader tests/whitelist.py --min-confidence 80
 
 .PHONY: security
 security:
@@ -73,6 +73,7 @@ new_env: clean
 	pipenv --rm;\
 	pipenv --python 3.8;\
 	echo "Enter clean virtual environment now: 'pipenv shell'.";\
+	rm -r src/storj_agent/upload_dir/*
 
 .PHONY: install_env
 install_env:
@@ -96,4 +97,8 @@ tests:
 .PHONY: run_app
 run_app:
 	pipenv run app
+
+.PHONY: docs
+docs:
+	pipenv run mkdocs serve
 

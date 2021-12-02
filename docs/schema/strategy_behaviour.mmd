@@ -1,0 +1,4 @@
+graph TD
+	A[Listen to Upload Directory] -->|File Storage Protocol| B(Message Envelope)
+	B -->|StorJ File Transfer Connection| C{File Upload to StorJ using S3 compatible client/gateway}
+  C -->|Generate Public URL| G[Publicly available URL for the file]

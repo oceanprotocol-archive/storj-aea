@@ -1,4 +1,4 @@
-site_name: Example Python Repo 
+site_name: AEA Storj File Uploader
 site_url: ''
 site_description: ''
 site_author: ''
@@ -12,8 +12,13 @@ theme:
 
 nav:
   - Index: 'index.md'
+  - Strategy Flow: 'strategy_flow.md'
+  - Prerequisites: 'prerequisites.md'
+  - Setup: 'setup.md'
+  - Demo: 'demo.md'
   - Gitlab CI: 'ci.md'
 
-plugins: []
+plugins: 
+  - mkdocs-video
 
 markdown_extensions: []

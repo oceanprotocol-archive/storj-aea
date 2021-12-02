@@ -1,4 +1,4 @@
-agent_name: ocean_publisher
+agent_name: storj_agent
 author: eightballer
 version: 0.1.0
 license: Apache-2.0
@@ -10,6 +10,7 @@ connections:
 - eightballer/storj_file_transfer:0.1.0
 contracts: []
 protocols:
+- eightballer/file_storage:0.1.0
 - fetchai/default:1.0.0
 - fetchai/signing:1.0.0
 - fetchai/state_update:1.0.0
@@ -29,3 +30,12 @@ logging_config:
 dependencies:
   aea-ledger-fetchai: {}
 default_connection: null
+---
+public_id: eightballer/storj_file_transfer:0.1.0
+type: connection
+config:
+  target_skill_id: eightballer/storg_file_transfer:0.1.0
+  storj_creds:
+    aws_access_key_id: jx7bgg74ceog3eznrovaiqcy23sa
+    aws_secret_access_key: j2wulv3drlgrt5apjr2csc5lmkzyqpqakgzuoc63fn6wedxmnu2ng
+    endpoint_url: https://gateway.eu1.storjshare.io

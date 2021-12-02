@@ -31,8 +31,11 @@ from packages.fetchai.protocols.default.dialogues import \
 
 DefaultDialogue = BaseDefaultDialogue
 
+from packages.eightballer.protocols.file_storage.dialogues import \
+    FileStorageDialogues
 
-class DefaultDialogues(Model, BaseDefaultDialogues):
+
+class DefaultDialogues(Model, FileStorageDialogues):
     """The dialogues class keeps track of all dialogues."""
 
     def __init__(self, **kwargs: Any) -> None:

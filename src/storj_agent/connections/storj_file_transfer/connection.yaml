@@ -15,7 +15,11 @@ connections: []
 protocols: []
 class_name: StorjSyncConnection
 config:
-  storj_creds: bar
+  storj_creds:
+    aws_access_key_id: null
+    aws_secret_access_key: null
+    endpoint_url: null
+  target_skill_id:  null
 excluded_protocols: []
 restricted_to_protocols: []
 dependencies: {}
