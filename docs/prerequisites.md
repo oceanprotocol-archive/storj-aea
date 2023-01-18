@@ -1,6 +1,6 @@
 ## Prerequisites
 
-To setup the project, make sure you have the latest verson of pipenv first:
+To setup the project, make sure you have the latest version of pipenv first:
 ```
 pip install -U pipenv
 ```
