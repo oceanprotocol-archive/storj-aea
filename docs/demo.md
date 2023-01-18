@@ -1,4 +1,6 @@
 ## Demo 
+For this demo we used the S3 Compatible Gateway for StorJ. *Note that there are connection variables that you need to provide in the .env file to run this agent successfully with StorJ. Check the Readme for more*.
+This agent is available under `src/storj_agent`.
 
 You are probably already running the agent in one of your terminals. To further test out and demo the agent, you can just add a file to the `upload_dir` directory and watch for the agent's output in the terminal and the StorJ gateway URL for your publicly available file.
 

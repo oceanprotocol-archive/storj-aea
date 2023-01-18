@@ -1,8 +1,23 @@
 # AEA Storj File Uploader
 
+## Intro
+
+This agent is responsible for doing an automatic upload of files to the decentralized storage grid StorJ using their S3 compatible gateway.
+
+The following list briefly explains the steps which the agent takes:
+
+- Once this agent is started, it tries to create a new bucket on StorJ if it isn't created already. 
+- After the bucket is ready (it already exists, or it is created) the agent sets up the storj handler and behaviour
+- Starts listening to the upload directory (`src/storj_agent/upload_dir`)
+- Once a file is ready in the directory the storj_file_transfer protocol fires a message to the StorJ connection
+- The message is processed and the file is uploaded to StorJ
+- The agent generates a publicly available URL for the file uploaded
+
+This flow is visualized in [Strategy Flow](strategy_flow.md).
+
 ## Prerequisites
 
-To setup the project, make sure you have the latest verson of pipenv first:
+To setup the project, make sure you have the latest version of pipenv first:
 ```
 pip install -U pipenv
 ```
